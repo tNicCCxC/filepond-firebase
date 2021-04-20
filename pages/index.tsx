@@ -75,13 +75,6 @@ export default function Home() {
           labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
       />
 
-      {/*<div>*/}
-      {/*    {*/}
-      {/*        list.map((image,index)=>{*/}
-      {/*            return <div>asdsa</div>*/}
-      {/*        }*/}
-      {/*    )*/}
-      {/*    }*/}
-      {/*</div>*/}
+      <h1>HAJSD</h1>
   </div>
 }
