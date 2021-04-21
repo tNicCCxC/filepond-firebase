@@ -19,7 +19,7 @@ export default function Home() {
   const [url,setUrl] = useState();
   const [key, setKey] = useState([]);
   const [list, setList] = useState({})
-
+  const [update, setUpdate] = useState(false);
 
   useEffect(()=>{
       database.ref('images/').get().then((snapshot)=>{
@@ -29,9 +29,10 @@ export default function Home() {
               })
               setKey([...aux]);
               setList(snapshot.val())
+              setUpdate(false);
           }
       })
-  },[false]);
+  },[update]);
 
 
   const writeDatabase = (url, name) => {
@@ -62,6 +63,7 @@ export default function Home() {
                       .then(res => {
                           setUrl(res);
                           writeDatabase(res, file.name)
+                          setUpdate(true);
                       })
               },
           );
