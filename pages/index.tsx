@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import {useEffect, useState} from "react";
 import {storage, database} from '../firebase';
@@ -18,16 +17,21 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
 export default function Home() {
   const [imageFilePond, setImageFilePond] = useState([]);
   const [url,setUrl] = useState();
-  const [list, setList] = useState([]);
+  const [key, setKey] = useState([]);
+  const [list, setList] = useState({})
 
 
-  // useEffect(()=>{
-  //     database.ref('images/').get().then((snapshot)=>{
-  //         if(snapshot.exists()){
-  //             setList(snapshot.val())
-  //         }
-  //     })
-  // });
+  useEffect(()=>{
+      database.ref('images/').get().then((snapshot)=>{
+          if(snapshot.exists()){
+              const aux = Object.keys(snapshot.val()).map((item)=>{
+                  return item
+              })
+              setKey([...aux]);
+              setList(snapshot.val())
+          }
+      })
+  },[false]);
 
 
   const writeDatabase = (url, name) => {
@@ -36,6 +40,7 @@ export default function Home() {
           name,
       });
   }
+
   const server = {
       process: (fieldName, file, metadata, load, error, progress, abort) => {
 
@@ -64,6 +69,7 @@ export default function Home() {
       load: url
   };
 
+
   return <div>
       <FilePond
           files={imageFilePond}
@@ -74,7 +80,15 @@ export default function Home() {
           name={`files${Math.random()}`}
           labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
       />
-
-      <h1>HAJSD</h1>
+      <h2>Imagenes almacenadas</h2>
+      <div className={styles.imageContainer}>
+          {
+              key.map((item:string,index)=>{
+                  return <div key={index} className={styles.margin}>
+                      <img src={list[item]?.url} alt={list[item]?.name} className={styles.imgShow}/>
+                  </div>
+              })
+          }
+      </div>
   </div>
 }
