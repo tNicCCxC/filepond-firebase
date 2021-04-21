@@ -72,12 +72,13 @@ export default function Home() {
   };
 
 
+
   return <div>
       <FilePond
+          allowReplace={true}
           files={imageFilePond}
           onupdatefiles={setImageFilePond}
           allowMultiple={false}
-          maxFiles={1}
           server={server}
           name={`files${Math.random()}`}
           labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
